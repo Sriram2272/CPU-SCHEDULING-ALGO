@@ -205,10 +205,6 @@ Option 1 — Manual (quick and simple)
 - Run the app locally (`npm run dev`), open the URL in your browser, and use your OS screenshot tool (Snipping Tool / Win+Shift+S on Windows) or a GIF recorder to capture the UI.
 - Save the image (for example `public/screenshots/schedule-example.png`), commit it, and embed in this README with:
 
-```markdown
-![Gantt chart example](public/screenshots/schedule-example.png)
-```
-
 Option 2 — Automated capture (one-step capture using Playwright)
 
 If you'd like to produce reproducible screenshots from the running app, you can use Playwright to open the page and save a screenshot programmatically. This is useful for demos, CI, or creating consistent images for the README.
@@ -225,10 +221,6 @@ npx playwright install
 2. Create a small capture script (example: `tools/capture-screenshot.js`) and paste the snippet below.
 
 3. Start the dev server in one terminal (`npm run dev`) and run the script in another terminal:
-
-```powershell
-node tools/capture-screenshot.js
-```
 
 Sample `tools/capture-screenshot.js` (place in the repository root):
 
