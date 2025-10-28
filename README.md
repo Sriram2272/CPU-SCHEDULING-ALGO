@@ -1,124 +1,202 @@
-# CPU-SCHEDULING-ALGO
+# CPU Scheduling Algorithm Visualization
 
-Welcome to an interactive playground for learning CPU scheduling algorithms. This small web app visualizes how different CPU scheduling strategies make decisions, displays Gantt charts, and measures key metrics (turnaround, waiting, response times) so you can learn by doing.
+## Introduction
+This project is an implementation of various CPU scheduling algorithms using React and TypeScript. It provides a visual representation of how different scheduling algorithms work, making it easier to understand their behavior and compare their performance metrics.
 
-## Why this project is fun
+## Tech Stack
+- **Frontend Framework:** React with TypeScript
+- **Build Tool:** Vite
+- **Styling:** Tailwind CSS
+- **UI Components:** Shadcn UI
+- **Charts:** Recharts for Gantt chart visualization
+- **State Management:** React Query
 
-- Tweak processes (arrival time, burst time, priority) and immediately see how the scheduler behaves.
-- Compare algorithms side-by-side (Gantt chart + metrics) to build intuition about trade-offs.
-- Great for students, instructors, and anyone who loves systems and visualization.
+## Project Overview
 
-## What you'll find here
+This project implements and visualizes the following key features:
+1. Real-time visualization of CPU scheduling algorithms
+2. Interactive process management (add, edit, remove processes)
+3. Gantt chart visualization of process execution
+4. Performance metrics calculation (waiting time, turnaround time)
+5. Step-by-step execution mode for better understanding
 
-- A clean React + Vite UI (TypeScript) with these main pieces:
-	- `src/components/ProcessControlPanel.tsx` — add/edit processes and simulation controls.
-	- `src/components/GanttChart.tsx` — interactive timeline visualization.
-	- `src/lib/schedulers.ts` — core scheduling logic (FCFS, SJF, SRTF, Priority, Round Robin, etc.).
-	- `src/components/MetricsPanel.tsx` — computed stats so you can compare algorithms.
+## Project Structure
+```
+src/
+├── components/          # React components
+│   ├── ProcessControlPanel.tsx  # Process input and controls
+│   ├── GanttChart.tsx          # Timeline visualization
+│   └── MetricsPanel.tsx        # Performance metrics display
+├── lib/
+│   └── schedulers.ts   # Core scheduling algorithms
+└── types/
+    └── scheduler.ts    # TypeScript definitions
+```
 
-## Algorithms (supported / typical)
+## Implemented Algorithms
 
-The app implements the common CPU scheduling strategies you likely expect:
+The project implements the following CPU scheduling algorithms:
 
-- First-Come, First-Served (FCFS)
-- Shortest Job First (SJF) — non-preemptive
-- Shortest Remaining Time First (SRTF) — preemptive SJF
-- Priority Scheduling (preemptive and/or non-preemptive depending on options)
-- Round Robin (with configurable time quantum)
+### 1. First Come First Served (FCFS)
+- Non-preemptive scheduling algorithm
+- Processes are executed in the order they arrive
+- Simple to implement but may lead to convoy effect
+- Best for batch systems where execution time is not critical
 
-Note: Exact names and options live in `src/lib/schedulers.ts` if you want to add/modify behavior.
+### 2. Shortest Job First (SJF)
+- Non-preemptive scheduling algorithm
+- Selects process with shortest burst time
+- Optimal for minimizing average waiting time
+- Requires prediction of burst time
 
-## Interactive walkthrough
+### 3. Shortest Remaining Time First (SRTF)
+- Preemptive version of SJF
+- Switches to shorter process when it arrives
+- Minimizes average waiting time
+- Higher overhead due to context switching
 
-1. Open the app in your browser (see "Try it" below).
-2. Add processes in the control panel. For each process set:
-	 - Arrival time (when it becomes available)
-	 - Burst (service) time
-	 - Priority (optional, for priority-based algorithms)
-3. Choose an algorithm and (if applicable) set a time quantum.
-4. Hit Run / Step / Reset to simulate and watch the Gantt chart animate.
-5. Inspect the Metrics panel to see average waiting time, average turnaround time, and per-process numbers.
+### 4. Priority Scheduling
+- Supports both preemptive and non-preemptive modes
+- Assigns priority to each process
+- Higher priority processes are executed first
+- May lead to starvation of lower priority processes
 
-The UI is intentionally simple so you can focus on what changes between algorithms.
+### 5. Round Robin
+- Time-sharing scheduling algorithm
+- Uses fixed time quantum
+- Fair allocation of CPU
+- Good for interactive systems
 
-## Try it (PowerShell-friendly)
+## How to Use
 
-Open a PowerShell window in the repository root (this project uses Vite). Use whichever package manager you prefer — npm, pnpm, or bun are all common. The project ships with standard scripts (`dev`, `build`, `preview`).
+### Running the Simulation
+1. Start by adding processes using the control panel
+2. For each process, specify:
+   - Process ID (automatically assigned)
+   - Arrival Time (when process enters the system)
+   - Burst Time (CPU time required)
+   - Priority (for priority scheduling)
+3. Select a scheduling algorithm
+4. Use the control buttons:
+   - Run: Execute complete simulation
+   - Step: Execute one step at a time
+   - Reset: Clear all processes and start over
 
-Using npm (recommended if you're unsure):
+### Understanding the Output
+- **Gantt Chart:** Visual representation of process execution
+- **Metrics Panel:** Displays:
+  - Average Waiting Time
+  - Average Turnaround Time
+  - CPU Utilization
+  - Individual process statistics
 
-```powershell
+## Setup Instructions
+
+### Prerequisites
+- Node.js (v14 or higher)
+- npm/pnpm (package manager)
+- Web browser (Chrome/Firefox/Safari)
+
+### Installation Steps
+1. Clone the repository:
+```bash
+git clone https://github.com/Sriram2272/CPU-SCHEDULING-ALGO.git
+cd CPU-SCHEDULING-ALGO
+```
+
+2. Install dependencies:
+```bash
 npm install
+```
+
+3. Start development server:
+```bash
 npm run dev
 ```
 
-Using pnpm (if you have pnpm installed):
+4. Open http://localhost:5173 in your browser
 
-```powershell
-pnpm install
-pnpm dev
+### Build for Production
+```bash
+npm run build
+npm run preview
 ```
 
-Using bun (if you prefer Bun and the lockfile exists):
+## Troubleshooting
 
-```powershell
-bun install
-bun run dev
+Common issues and solutions:
+
+1. **Port Already in Use**
+   - Error: EADDRINUSE
+   - Solution: Kill the process using the port or use a different port
+   ```bash
+   npm run dev -- --port 3000
+   ```
+
+2. **TypeScript Errors**
+   - Run `npm run build` for detailed error messages
+   - Check type definitions in `src/types/scheduler.ts`
+
+3. **Dependencies Issues**
+   - Clear npm cache: `npm cache clean --force`
+   - Delete node_modules and reinstall: 
+     ```bash
+     rm -rf node_modules
+     npm install
+     ```
+
+## Performance Metrics
+
+The simulation calculates and displays the following metrics:
+
+### 1. Waiting Time
+- Time a process spends waiting in the ready queue
+- Average Waiting Time = Σ(Waiting Time) / Number of Processes
+
+### 2. Turnaround Time
+- Total time from submission to completion
+- Turnaround Time = Completion Time - Arrival Time
+
+### 3. Response Time
+- Time from submission until first CPU burst
+- Important for interactive systems
+
+## Sample Process Sets
+
+### Basic Example
+```
+Process Set 1:
+P1: Arrival Time = 0, Burst Time = 4
+P2: Arrival Time = 1, Burst Time = 3
+P3: Arrival Time = 2, Burst Time = 1
 ```
 
-Then open http://localhost:5173 (or the URL printed by Vite) and explore.
+### Priority Example
+```
+Process Set 2:
+P1: Arrival Time = 0, Burst Time = 4, Priority = 2
+P2: Arrival Time = 0, Burst Time = 3, Priority = 1
+P3: Arrival Time = 2, Burst Time = 1, Priority = 3
+```
 
-## Quick tips & troubleshooting
+## Future Enhancements
+1. Additional scheduling algorithms
+   - Multilevel Queue
+   - Multilevel Feedback Queue
+2. Advanced visualization features
+   - Process state diagrams
+   - CPU utilization graphs
+3. Export/Import process sets
+4. Comparison charts for different algorithms
 
-- If the UI doesn't reload after changing code, stop the dev server and re-run `npm run dev`.
-- If you see type errors from TypeScript, run `npm run build` to get a clearer compiler output.
-- Linting: `npm run lint` will run ESLint across the project.
-- If ports conflict, Vite will attempt an alternate port; check the terminal output for the final URL.
+## Contributors
+- Sriram (@Sriram2272)
 
-## For contributors
-
-- Want to add another scheduling algorithm or a new visualization? Great!
-- Add your algorithm implementation to `src/lib/schedulers.ts` and expose any config through the control panel component.
-- Please keep UI changes consistent with existing patterns in `src/components` and add lightweight tests or examples when practical.
-
-Small checklist for PRs:
-
-1. Run the dev server and test the flow locally.
-2. Keep changes small and focused.
-3. Update this README if you add new UI options or algorithms.
-
-## Learning contract (what to expect)
-
-- Inputs: processes with arrival, burst, and (optional) priority; a scheduler selection; optional quantum.
-- Output: a simulated schedule (Gantt chart) and metrics per-process and averaged.
-- Error modes: invalid numbers (negative times) are rejected by the form; extremely large inputs may affect render performance.
-
-Edge cases to think about when experimenting:
-
-- Multiple processes arriving at the same time.
-- Zero-length burst (should be ignored or handled gracefully).
-- Extremely small quantum for Round Robin (causes many context switches visually).
-
-## Where to look in the code
-
-- Scheduling logic: `src/lib/schedulers.ts`
-- UI wiring: `src/components/ProcessControlPanel.tsx` (input) and `src/components/GanttChart.tsx` (output)
-- Types: `src/types/scheduler.ts`
-
-## License & attribution
-
-This repository is a small educational project — reuse as you like (add a license file if you plan to publish).
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ---
-
-Happy scheduling! If you'd like, I can also:
-
-- Add a short GIF or screenshot to this README.
-- Generate a lightweight demo script that seeds the app with a few example process sets (beginner/intermediate/advanced).
-
-Tell me which of those you'd like next and I'll implement it for you.
-
-## Screenshots & GIFs
+Made with ❤️ for Operating Systems course project
 
 It's helpful to include a visual so others can quickly see the Gantt chart and metrics. Here are two simple options you can use to add screenshots or an animated GIF to this README.
 
